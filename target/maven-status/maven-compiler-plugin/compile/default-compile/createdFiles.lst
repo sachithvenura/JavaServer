@@ -1,0 +1,9 @@
+springrest\config\WebInitializer.class
+springrest\config\HibernateConfig.class
+springrest\config\WebConfig.class
+springrest\service\HotelService.class
+springrest\dao\HotelDao.class
+springrest\dao\HotelDaoImpl.class
+springrest\service\HotelServiceImpl.class
+springrest\controller\HotelController.class
+springrest\model\Hotel.class
