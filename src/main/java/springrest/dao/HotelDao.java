@@ -14,4 +14,6 @@ public interface HotelDao {
 	public void deleteHotel(Hotel hotel);
 
 	public Hotel findHotel(Hotel hotel);
+	
+	public List<Hotel> searchHotel(String query);
 }

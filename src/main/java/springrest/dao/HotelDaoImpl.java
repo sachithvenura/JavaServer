@@ -8,6 +8,7 @@ import java.util.List;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
@@ -53,18 +54,24 @@ public class HotelDaoImpl implements HotelDao{
 	}
 
 	public void updateHotel(Hotel hotel) {
-		// TODO Auto-generated method stub
+		getSession().saveOrUpdate(hotel);
 		
 	}
 
 	public void deleteHotel(Hotel hotel) {
-		// TODO Auto-generated method stub
+		getSession().delete(hotel);
 		
 	}
 
 	public Hotel findHotel(Hotel hotel) {
 		// TODO Auto-generated method stub
 		return (Hotel) getSession().get(Hotel.class, hotel.getId());
+	}
+
+	public List<Hotel> searchHotel(String query) {
+		Criteria criteria = getSession().createCriteria(Hotel.class)
+				   .add(Restrictions.like("hotelName", "%"+query+"%"));
+		return criteria.list();
 	}
 	
 //	public SqlParameterSource getParameterSource(Hotel hotel) {

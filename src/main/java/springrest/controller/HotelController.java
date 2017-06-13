@@ -51,5 +51,14 @@ public class HotelController {
 		return new ResponseEntity<Hotel>(list,HttpStatus.OK);
 	}
 	
+	@RequestMapping(value="/hotel/search/{query}",method=RequestMethod.GET,headers="Accept=application/json")
+	public ResponseEntity<List<Hotel>> searchHotel(@PathVariable("query") String query){
+		List<Hotel> list= hotelService.searchHotel(query);
+		if (list.size()==0) {
+			return new ResponseEntity<List<Hotel>>(HttpStatus.NO_CONTENT);
+		}
+		return new ResponseEntity<List<Hotel>>(list,HttpStatus.OK);
+	}
+	
 	
 }
