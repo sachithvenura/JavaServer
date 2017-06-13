@@ -31,21 +31,17 @@ public class HotelServiceImpl implements HotelService{
 
 	public void updateHotel(Hotel hotel) {
 		this.hotelDao.updateHotel(hotel);
-		
 	}
 
 	public void deleteHotel(Hotel hotel) {
 		this.hotelDao.deleteHotel(hotel);
-		
 	}
 
 	public Hotel findHotel(Hotel hotel) {
-		// TODO Auto-generated method stub
 		return hotelDao.findHotel(hotel);
 	}
 
 	public List<Hotel> searchHotel(String query) {
-		// TODO Auto-generated method stub
 		return hotelDao.searchHotel(query);
 	}
 

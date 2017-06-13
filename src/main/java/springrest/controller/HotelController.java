@@ -10,8 +10,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
-
 import springrest.model.Hotel;
 import springrest.service.HotelService;
 
@@ -23,16 +21,13 @@ public class HotelController {
 	
 	@RequestMapping("/")
     public String welcome() {//Welcome page, non-rest
-        return "Welcome to RestTemplate Example.";
+        return "welcome";
     }
 	
 	@RequestMapping(value="/hotel/add",method=RequestMethod.POST,headers="Accept=application/json")
 	public ResponseEntity<Void> addHotel(@RequestBody Hotel hotel){
-//		Map<String, Object> map= new HashMap<String, Object>();
 		hotelService.addHotel(hotel);
-		System.out.println("sachith hettiarachchi");
 		return new ResponseEntity<Void>(new HttpHeaders(),HttpStatus.CREATED);
-		
 	}
 	
 	@RequestMapping(value="/hotel",method=RequestMethod.GET,headers="Accept=application/json")
@@ -59,6 +54,17 @@ public class HotelController {
 		}
 		return new ResponseEntity<List<Hotel>>(list,HttpStatus.OK);
 	}
+	@RequestMapping(value="/hotel/delete/{id}",method=RequestMethod.GET,headers="Accept=application/json")
+	public ResponseEntity<Void> deleteHotel(@PathVariable("id") Integer id){
+		Hotel search= new Hotel();
+		search.setId(id);
+		hotelService.deleteHotel(search);
+		return new ResponseEntity<Void>(HttpStatus.OK);
+	}
 	
-	
+	@RequestMapping(value="/hotel/update",method=RequestMethod.POST,headers="Accept=application/json")
+	public ResponseEntity<Void> updateHotel(@RequestBody Hotel hotel){
+		hotelService.updateHotel(hotel);
+		return new ResponseEntity<Void>(new HttpHeaders(),HttpStatus.CREATED);
+	}
 }
