@@ -4,48 +4,51 @@ import java.util.List;
 
 import org.hibernate.Criteria;
 import org.hibernate.Session;
-import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
 import org.hibernate.criterion.Restrictions;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+import springrest.config.NewHibernateUtil;
 
-import springrest.model.Hotel;
+import springrest.model.Hotels;
 
 @Repository
 public class HotelDaoImpl implements HotelDao {
 
-	@Autowired
-	private SessionFactory factory;
+    Session s = NewHibernateUtil.getSessionFactory().openSession();
 
-	private Session getSession() {
-		return factory.getCurrentSession();
-	}
+    @SuppressWarnings("unchecked")
+    public List<Hotels> listAllHotels() {
+        List<Hotels> list = s.createCriteria(Hotels.class).list();
+        return list;
+    }
 
-	@SuppressWarnings("unchecked")
-	public List<Hotel> listAllHotels() {
-		return (List<Hotel>) getSession().createCriteria(Hotel.class).list();
-	}
+    public void addHotel(Hotels hotel) {
+        Transaction t = s.beginTransaction();
+        try {
+            s.save(hotel);
+            t.commit();
+        } catch (Exception e) {
+            t.rollback();
+            e.printStackTrace();
+        }
+    }
 
-	public void addHotel(Hotel hotel) {
-		getSession().saveOrUpdate(hotel);
-	}
+    public void updateHotel(Hotels hotel) {
+        s.saveOrUpdate(hotel);
+    }
 
-	public void updateHotel(Hotel hotel) {
-		getSession().saveOrUpdate(hotel);
-	}
+    public void deleteHotel(Hotels hotel) {
+        s.delete(hotel);
+    }
 
-	public void deleteHotel(Hotel hotel) {
-		getSession().delete(hotel);
-	}
+    public Hotels findHotel(Hotels hotel) {
+        return (Hotels) s.get(Hotels.class, hotel.getId());
+    }
 
-	public Hotel findHotel(Hotel hotel) {
-		return (Hotel) getSession().get(Hotel.class, hotel.getId());
-	}
-
-	@SuppressWarnings("unchecked")
-	public List<Hotel> searchHotel(String query) {
-		Criteria criteria = getSession().createCriteria(Hotel.class)
-				.add(Restrictions.like("hotelName", "%" + query + "%"));
-		return criteria.list();
-	}
+    @SuppressWarnings("unchecked")
+    public List<Hotels> searchHotel(String query) {
+        Criteria criteria = s.createCriteria(Hotels.class)
+                .add(Restrictions.like("hotelName", "%" + query + "%"));
+        return criteria.list();
+    }
 }

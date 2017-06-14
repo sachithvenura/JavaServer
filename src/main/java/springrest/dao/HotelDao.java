@@ -2,18 +2,18 @@ package springrest.dao;
 
 import java.util.List;
 
-import springrest.model.Hotel;
+import springrest.model.Hotels;
 
 public interface HotelDao {
-	public List<Hotel> listAllHotels();
+	public List<Hotels> listAllHotels();
 
-	public void addHotel(Hotel hotel);
+	public void addHotel(Hotels hotel);
 
-	public void updateHotel(Hotel hotel);
+	public void updateHotel(Hotels hotel);
 
-	public void deleteHotel(Hotel hotel);
+	public void deleteHotel(Hotels hotel);
 
-	public Hotel findHotel(Hotel hotel);
+	public Hotels findHotel(Hotels hotel);
 	
-	public List<Hotel> searchHotel(String query);
+	public List<Hotels> searchHotel(String query);
 }

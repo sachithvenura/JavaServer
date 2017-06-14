@@ -8,7 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import springrest.dao.HotelDao;
-import springrest.model.Hotel;
+import springrest.model.Hotels;
 
 @Service
 @Transactional
@@ -21,27 +21,27 @@ public class HotelServiceImpl implements HotelService{
 		this.hotelDao = hotelDao;
 	}
 
-	public List<Hotel> listAllHotels() {
+	public List<Hotels> listAllHotels() {
 		return this.hotelDao.listAllHotels();
 	}
 
-	public void addHotel(Hotel hotel) {
+	public void addHotel(Hotels hotel) {
 		this.hotelDao.addHotel(hotel);
 	}
 
-	public void updateHotel(Hotel hotel) {
+	public void updateHotel(Hotels hotel) {
 		this.hotelDao.updateHotel(hotel);
 	}
 
-	public void deleteHotel(Hotel hotel) {
+	public void deleteHotel(Hotels hotel) {
 		this.hotelDao.deleteHotel(hotel);
 	}
 
-	public Hotel findHotel(Hotel hotel) {
+	public Hotels findHotel(Hotels hotel) {
 		return hotelDao.findHotel(hotel);
 	}
 
-	public List<Hotel> searchHotel(String query) {
+	public List<Hotels> searchHotel(String query) {
 		return hotelDao.searchHotel(query);
 	}
 
