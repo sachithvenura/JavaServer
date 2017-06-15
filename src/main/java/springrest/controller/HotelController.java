@@ -1,6 +1,7 @@
 package springrest.controller;
 
 //import com.fasterxml.jackson.databind.node.ObjectNode;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
@@ -22,8 +23,8 @@ public class HotelController {
     @Autowired
     HotelService hotelService;
 
-//    @Autowired
-//    CityService cityService;
+    @Autowired
+    CityService cityService;
 
     @RequestMapping("/")
     public String welcome() {//Welcome page, non-rest
@@ -37,17 +38,17 @@ public class HotelController {
     }
 
     @RequestMapping(value = "/hotel/add2", method = RequestMethod.POST, headers = "Accept=application/json")
-    public ResponseEntity<Void> addHotel2(@RequestBody String json) {
-//        Hotels hotel = new Hotels();
-//        hotel.setHotelName(json.get("hotel").get("hotelName").toString());
-//        hotel.setHotelAddress(json.get("hotel").get("hotelAddress").toString());
-//        Cities ct = new Cities();
-//        ct.setCityId(json.get("city").get("cityId").asInt());
-//        Cities cities = cityService.findCity(ct);
-//        hotel.setCities(cities);
-//        hotelService.addHotel(hotel);
-//        System.out.println(json.get("hotel"));
-//        System.out.println("sachith");
+    public ResponseEntity<Void> addHotel2(@RequestBody ObjectNode json) {
+        Hotels hotel = new Hotels();
+        hotel.setHotelName(json.get("hotel").get("hotelName").toString());
+        hotel.setHotelAddress(json.get("hotel").get("hotelAddress").toString());
+        Cities ct = new Cities();
+        ct.setCityId(json.get("city").get("cityId").asInt());
+        Cities cities = cityService.findCity(ct);
+        hotel.setCities(cities);
+        hotelService.addHotel(hotel);
+        System.out.println(json.get("hotel").get("hotelName"));
+        System.out.println(json.get("city").get("cityId"));
         return new ResponseEntity<Void>(new HttpHeaders(), HttpStatus.CREATED);
     }
 
@@ -90,7 +91,15 @@ public class HotelController {
     }
 
     @RequestMapping(value = "/hotel/update", method = RequestMethod.POST, headers = "Accept=application/json")
-    public ResponseEntity<Void> updateHotel(@RequestBody Hotels hotel) {
+    public ResponseEntity<Void> updateHotel(@RequestBody ObjectNode json) {
+        Hotels hotel = new Hotels();
+        hotel.setId(json.get("hotel").get("hotelId").asInt());
+        hotel.setHotelName(json.get("hotel").get("hotelName").toString());
+        hotel.setHotelAddress(json.get("hotel").get("hotelAddress").toString());
+        Cities ct = new Cities();
+        ct.setCityId(json.get("city").get("cityId").asInt());
+        Cities cities = cityService.findCity(ct);
+        hotel.setCities(cities);
         hotelService.updateHotel(hotel);
         return new ResponseEntity<Void>(new HttpHeaders(), HttpStatus.CREATED);
     }

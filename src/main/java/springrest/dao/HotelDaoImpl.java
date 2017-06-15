@@ -1,53 +1,59 @@
 package springrest.dao;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.util.List;
 
 import org.hibernate.Criteria;
 import org.hibernate.Session;
+import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.criterion.Restrictions;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
-import springrest.config.NewHibernateUtil;
+import org.springframework.transaction.annotation.Transactional;
 
 import springrest.model.Hotels;
 
 @Repository
 public class HotelDaoImpl implements HotelDao {
 
-    Session s = NewHibernateUtil.getSessionFactory().openSession();
+    @Autowired
+    private SessionFactory factory;
 
-    @SuppressWarnings("unchecked")
+    private Session getSession() {
+        return factory.getCurrentSession();
+    }
+
     public List<Hotels> listAllHotels() {
-        List<Hotels> list = s.createCriteria(Hotels.class).list();
+        List<Hotels> list = getSession().createCriteria(Hotels.class).list();
         return list;
     }
 
+    @Transactional
     public void addHotel(Hotels hotel) {
-        Transaction t = s.beginTransaction();
         try {
-            s.save(hotel);
-            t.commit();
+            getSession().save(hotel);
         } catch (Exception e) {
-            t.rollback();
             e.printStackTrace();
         }
     }
 
+    @Transactional
     public void updateHotel(Hotels hotel) {
-        s.saveOrUpdate(hotel);
+        getSession().saveOrUpdate(hotel);
     }
 
+    @Transactional
     public void deleteHotel(Hotels hotel) {
-        s.delete(hotel);
+        getSession().delete(hotel);
     }
 
     public Hotels findHotel(Hotels hotel) {
-        return (Hotels) s.get(Hotels.class, hotel.getId());
+        return (Hotels) getSession().get(Hotels.class, hotel.getId());
     }
 
-    @SuppressWarnings("unchecked")
     public List<Hotels> searchHotel(String query) {
-        Criteria criteria = s.createCriteria(Hotels.class)
+        Criteria criteria = getSession().createCriteria(Hotels.class)
                 .add(Restrictions.like("hotelName", "%" + query + "%"));
         return criteria.list();
     }

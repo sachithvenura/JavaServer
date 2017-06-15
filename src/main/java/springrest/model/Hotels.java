@@ -40,9 +40,8 @@ public class Hotels  implements java.io.Serializable {
        this.hotelAddress = hotelAddress;
     }
    
-     @Id @GeneratedValue(strategy=IDENTITY)
-
-    
+     @Id
+     @GeneratedValue(strategy=IDENTITY)    
     @Column(name="id", unique=true, nullable=false)
     public Integer getId() {
         return this.id;
@@ -52,7 +51,7 @@ public class Hotels  implements java.io.Serializable {
         this.id = id;
     }
 
-@ManyToOne(fetch=FetchType.LAZY)
+@ManyToOne(fetch=FetchType.EAGER)
     @JoinColumn(name="city_id", nullable=false)
     public Cities getCities() {
         return this.cities;

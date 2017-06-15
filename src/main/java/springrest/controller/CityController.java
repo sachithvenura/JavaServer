@@ -25,8 +25,6 @@ public class CityController {
     @RequestMapping("/city")
     public ModelAndView cityList() {//Welcome page, non-rest
         ModelAndView model = new ModelAndView("city/list");
-        Cities c = new Cities();
-        c.setCityName("Lavinia");
         List<Cities> list = cityService.listAllCities();
         model.addObject("list", list);
         return model;
@@ -66,10 +64,10 @@ public class CityController {
         return new ResponseEntity<List<Cities>>(list, HttpStatus.FOUND);
     }
 
-    @RequestMapping(value = "/city/update/", method = RequestMethod.POST, headers = "Accept=application/json")
+    @RequestMapping(value = "/city/update", method = RequestMethod.POST, headers = "Accept=application/json")
     public ResponseEntity<Void> updateCity(@RequestBody Cities cities) {
-//        cityService.updateCity(cities);
-        System.out.println("updated=====================================================================");
+        cityService.updateCity(cities);
         return new ResponseEntity<Void>(new HttpHeaders(), HttpStatus.CREATED);
     }
+    
 }
