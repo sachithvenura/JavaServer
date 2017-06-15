@@ -99,8 +99,8 @@ public class HotelController {
     public ResponseEntity<Void> updateHotel(@RequestBody ObjectNode json) {
         Hotels hotel = new Hotels();
         hotel.setId(json.get("hotel").get("hotelId").asInt());
-        hotel.setHotelName(json.get("hotel").get("hotelName").toString());
-        hotel.setHotelAddress(json.get("hotel").get("hotelAddress").toString());
+        hotel.setHotelName(json.get("hotel").get("hotelName").textValue().toString().replaceAll("\"", ""));
+        hotel.setHotelAddress(json.get("hotel").get("hotelAddress").textValue().toString().replaceAll("\"", ""));
         Cities ct = new Cities();
         ct.setCityId(json.get("city").get("cityId").asInt());
         Cities cities = cityService.findCity(ct);
