@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.servlet.ModelAndView;
 import springrest.model.Cities;
 import springrest.model.Hotels;
 import springrest.service.CityService;
@@ -37,8 +38,16 @@ public class HotelController {
         return new ResponseEntity<Void>(new HttpHeaders(), HttpStatus.CREATED);
     }
 
+    @RequestMapping("/hotel")
+    public ModelAndView hotelList() {//Welcome page, non-rest
+        ModelAndView model = new ModelAndView("hotel/list");
+        List<Hotels> list = hotelService.listAllHotels();
+        model.addObject("list", list);
+        return model;
+    }
+
     @RequestMapping(value = "/hotel/add2", method = RequestMethod.POST, headers = "Accept=application/json")
-    public ResponseEntity<Void> addHotel2(@RequestBody ObjectNode json) {
+    public ResponseEntity<String> addHotel2(@RequestBody ObjectNode json) {
         Hotels hotel = new Hotels();
         hotel.setHotelName(json.get("hotel").get("hotelName").toString());
         hotel.setHotelAddress(json.get("hotel").get("hotelAddress").toString());
@@ -49,10 +58,11 @@ public class HotelController {
         hotelService.addHotel(hotel);
         System.out.println(json.get("hotel").get("hotelName"));
         System.out.println(json.get("city").get("cityId"));
-        return new ResponseEntity<Void>(new HttpHeaders(), HttpStatus.CREATED);
+        String output="success";
+        return new ResponseEntity<String>(output,new HttpHeaders(), HttpStatus.OK);
     }
 
-    @RequestMapping(value = "/hotel", method = RequestMethod.GET, headers = "Accept=application/json")
+    @RequestMapping(value = "/hotel/list", method = RequestMethod.GET, headers = "Accept=application/json")
     public ResponseEntity<List<Hotels>> listAllHotel() {
         List<Hotels> list = hotelService.listAllHotels();
         System.out.println(list.size());
