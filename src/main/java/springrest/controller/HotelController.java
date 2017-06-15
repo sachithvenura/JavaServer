@@ -56,8 +56,6 @@ public class HotelController {
         Cities cities = cityService.findCity(ct);
         hotel.setCities(cities);
         hotelService.addHotel(hotel);
-        System.out.println(json.get("hotel").get("hotelName"));
-        System.out.println(json.get("city").get("cityId"));
         String output="success";
         return new ResponseEntity<String>(output,new HttpHeaders(), HttpStatus.OK);
     }
@@ -69,9 +67,6 @@ public class HotelController {
         for (Hotels hotels : list) {
             System.out.println(hotels.getHotelName());
         }
-//        if (list.isEmpty()) {
-//            return new ResponseEntity<List<Hotels>>(HttpStatus.NO_CONTENT);
-//        }
         return new ResponseEntity<List<Hotels>>(list, HttpStatus.OK);
     }
 

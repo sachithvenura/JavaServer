@@ -1,12 +1,12 @@
 package springrest.dao;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.util.List;
 
 import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-import org.hibernate.Transaction;
+import org.hibernate.criterion.Criterion;
+import org.hibernate.criterion.Disjunction;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -53,8 +53,11 @@ public class HotelDaoImpl implements HotelDao {
     }
 
     public List<Hotels> searchHotel(String query) {
-        Criteria criteria = getSession().createCriteria(Hotels.class)
-                .add(Restrictions.like("hotelName", "%" + query + "%"));
-        return criteria.list();
+        Criteria criteria = getSession().createCriteria(Hotels.class);
+        Disjunction disCriteria = Restrictions.disjunction();
+        disCriteria.add(Restrictions.like("hotelName", "%" + query + "%"));
+        disCriteria.add(Restrictions.like("hotelAddress", "%" + query + "%"));
+        System.out.println(criteria.list().size());
+        return criteria.add(disCriteria).list();
     }
 }

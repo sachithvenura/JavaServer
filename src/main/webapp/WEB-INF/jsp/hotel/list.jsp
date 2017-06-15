@@ -74,7 +74,6 @@
                         for (var i = 0; i < data.length; i++) {
                             $('#hotel_list').append('<tr><td>' + data[i].id + '</td><td>' + data[i].hotelName + '</td><td>' + data[i].hotelAddress + '</td><td>' + data[i].cities.cityName + '</td></tr>');
                         }
-                        console.log(data);
                     }
                 });
             }
